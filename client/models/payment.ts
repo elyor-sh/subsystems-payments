@@ -14,7 +14,8 @@ export enum PaymentActionTypes {
     CARD = "CARD",
     EXP = "EXP",
     CVV = "CVV",
-    AMOUNT = "AMOUNT"
+    AMOUNT = "AMOUNT",
+    EMPTY = "EMPTY"
 }
 
 
@@ -38,5 +39,9 @@ interface AmountAction {
     payload: number| null
 }
 
+interface EmptyStateAction {
+    type: PaymentActionTypes.EMPTY
+}
 
-export type PaymentAction = CardAction | ExpAction | CvvAction | AmountAction
+
+export type PaymentAction = CardAction | ExpAction | CvvAction | AmountAction | EmptyStateAction

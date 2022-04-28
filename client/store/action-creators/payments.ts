@@ -15,3 +15,7 @@ export const cvvActionCreator = (payload: number | null): PaymentAction => {
 export const amountActionCreator = (payload: number | null): PaymentAction => {
     return {type: PaymentActionTypes.AMOUNT, payload}
 }
+
+export const emptyStateCreator = () => {
+    return {type: PaymentActionTypes.EMPTY}
+}

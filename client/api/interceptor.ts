@@ -1,4 +1,5 @@
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const baseURL = `http://localhost:8080/api`
 
@@ -17,3 +18,15 @@ export const apiInstance = axios.create({
         },
     ],
 });
+
+apiInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        toast.error(error?.response?.data?.message ? error?.response?.data?.message : 'Не определенная ошибка', {
+            toastId: 'ResponseInterceptor'
+        })
+        return Promise.reject(error);
+    },
+);

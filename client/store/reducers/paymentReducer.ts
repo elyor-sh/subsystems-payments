@@ -17,6 +17,14 @@ export const paymentReducer = (state = initialState, action: PaymentAction): IPo
             return {...state, Cvv: action.payload}
         case PaymentActionTypes.AMOUNT:
             return {...state, Amount: action.payload}
+        case PaymentActionTypes.EMPTY:
+            console.log('empty')
+            return {
+                CardNumber: null,
+                ExpDate: null,
+                Cvv: null,
+                Amount: null
+            }
         default:
             return state
     }
