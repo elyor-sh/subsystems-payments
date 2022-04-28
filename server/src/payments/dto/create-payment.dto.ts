@@ -1,5 +1,6 @@
 import {Contains, IsInt, IsNumber, IsString, Length, Max, Min, Validate} from "class-validator";
 import {ExpDateValidation} from "../validator/date-validator";
+import {CvvValidation} from "../validator/cvv-validator";
 
 export class CreatePaymentDto {
 
@@ -15,8 +16,9 @@ export class CreatePaymentDto {
     ExpDate: string;
 
     @IsInt({message: `CVV карты должен быть целым числом`})
-    @Min(100)
+    @Min(0)
     @Max(999)
+    @Validate(CvvValidation)
     Cvv: number;
 
     @Min(1, {message: `Минимальная цена 1`})
