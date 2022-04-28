@@ -11,7 +11,7 @@ export class ValidatePayment {
 
     expDate (): boolean {
 
-        const regex = new RegExp(`^(0[1-9]|1[0-2])\\/(([2-9]{4})$)`)
+        const regex = new RegExp(`^(0[1-9]|1[0-2])\\/(([0-9]{4})$)`)
 
         const year = new Date().getFullYear()
 
@@ -28,7 +28,11 @@ export class ValidatePayment {
     }
 
     amount (): boolean {
-        return (typeof this.state.Amount === 'number' && this.state.Amount >= 1)
+        if(!this.state.Amount){
+            return false
+        }
+
+        return ( typeof +this.state.Amount === 'number' && +this.state.Amount >= 1)
     }
 
     valid (): boolean {
