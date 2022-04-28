@@ -38,4 +38,5 @@ interface AmountAction {
     payload: number| null
 }
 
+
 export type PaymentAction = CardAction | ExpAction | CvvAction | AmountAction

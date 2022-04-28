@@ -1,12 +1,14 @@
 import type { NextPage} from 'next'
-import {Box, Grid, TextField} from "@mui/material";
-import React, {useState} from "react";
+import React from "react";
 import styles from '../styles/Home.module.scss'
-import {apiInstance} from "../api/interceptor";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {ValidatePayment} from "../helpers/validate";
 import {useActions} from "../hooks/useAction";
 import {PaymentActionTypes} from "../models/payment";
+import {Form} from "../components/Form/Form";
+import {PaymentsService} from "../services/payments.service";
+import {Layout} from "../components/Layout/Layout";
+import {toast} from "react-toastify";
 
 const Index: NextPage = () => {
 
@@ -14,24 +16,21 @@ const Index: NextPage = () => {
 
     const validation = new ValidatePayment({CardNumber, Cvv, ExpDate, Amount})
 
+    const paymentsService = new PaymentsService()
+
     const dispatch = useActions()
 
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.name
-        const value = e.target.value
-
-        console.log(name, PaymentActionTypes.CARD, value)
+    const handleChange = (name: string, value: any, valueWithMask?: string) => {
 
         switch (name){
             case PaymentActionTypes.CARD:
-               dispatch.cardActionCreator(+value)
+               dispatch.cardActionCreator(value)
                 break
             case PaymentActionTypes.EXP:
-                dispatch.expDataActionCreator(value)
+                dispatch.expDataActionCreator(`${valueWithMask}`)
                 break
             case PaymentActionTypes.CVV:
-                dispatch.cvvActionCreator(+value)
+                dispatch.cvvActionCreator(value)
                 break
             case PaymentActionTypes.AMOUNT:
                 dispatch.amountActionCreator(+value)
@@ -41,41 +40,37 @@ const Index: NextPage = () => {
         }
     }
 
+
+    const handleSubmit = async () => {
+
+        if(!validation.valid()){
+            toast.error(`Не валидные данные`, {
+                toastId: 'CustomId'
+            })
+
+            return
+        }
+
+        await paymentsService.post({
+            CardNumber: Number(CardNumber),
+            Cvv: Number(Cvv),
+            ExpDate,
+            Amount
+        }).then(res => {
+            console.log(res)
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+
     return (
-        <div className={styles.container}>
-            <Grid container className={styles.gridContainer}>
-                <Box>
-                    <Grid item>
-                        <TextField
-                            name={PaymentActionTypes.CARD}
-                            value={CardNumber || ''}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            name={PaymentActionTypes.EXP}
-                            value={ExpDate || ''}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            name={PaymentActionTypes.CVV}
-                            value={Cvv || ''}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            name={PaymentActionTypes.AMOUNT}
-                            value={Amount || ''}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                </Box>
-            </Grid>
-        </div>
+        <Layout>
+                <Form
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    disabled={!validation.valid()}
+                />
+        </Layout>
     )
 }
 
