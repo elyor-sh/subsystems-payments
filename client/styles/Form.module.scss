@@ -1,4 +1,85 @@
 .gridContainer {
   max-width: 500px;
   width: 100%;
+  padding: 20px !important;
+  background-color: #2a2b38;
+  border-radius: 10px;
 }
+
+.gridItem {
+  margin: 10px 0px;
+}
+
+.btn {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0.6em;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  font-size: 1rem;
+  line-height: 1;
+  margin: 20px 0;
+  padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  border-color: #f1c40f;
+  color: #fff;
+  background-image: -webkit-linear-gradient(90deg, #f1c40f 50%, transparent 50%);
+  background-image: linear-gradient(90deg, #f1c40f 50%, transparent 50%);
+  background-position: 100%;
+  background-size: 400%;
+  -webkit-transition: background 300ms ease-in-out;
+  transition: background 600ms ease-in-out;
+
+  &:hover, &:focus {
+    color: #fff;
+    outline: 0;
+    background-position: 0;
+  }
+
+  &:disabled, &:disabled:hover, &:disabled:focus {
+    border-color: #8f8f8f;
+    background-position: 100%;
+  }
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 10px;
+  background: rgba(0,0,0,0.3);
+  outline: none;
+  padding: 10px;
+  font-size: 13px;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 4px;
+  box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+  -webkit-transition: box-shadow .5s ease;
+  -moz-transition: box-shadow .5s ease;
+  -o-transition: box-shadow .5s ease;
+  -ms-transition: box-shadow .5s ease;
+  transition: box-shadow .5s ease;
+  &:focus {
+    box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2);
+  }
+}
+
+.label {
+  color: #939393;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
