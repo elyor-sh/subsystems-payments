@@ -5,6 +5,7 @@ import {PaymentsDocument} from "./payments.schema";
 import {CreatePaymentDto} from "./dto/create-payment.dto";
 
 @Injectable()
+
 export class PaymentsService {
 
     constructor(@InjectModel('payments') private paymentRepository: Model<PaymentsDocument> ) {}

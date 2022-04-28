@@ -80,8 +80,6 @@ export const Form: React.FC = () => {
         })
     }
 
-    console.log(CardNumber)
-
 
     return (
         <Grid container className={styles.gridContainer}>

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "cross-env NEXT_PUBLIC_ENV=development next dev",
+    "build": "cross-env NEXT_PUBLIC_ENV=production next build",
+    "start": "cross-env NEXT_PUBLIC_ENV=production next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "@mui/material": "^5.6.0",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
+    "cross-env": "^7.0.3",
     "next": "12.1.4",
     "next-redux-wrapper": "^7.0.5",
     "react": "18.0.0",

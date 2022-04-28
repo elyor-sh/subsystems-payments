@@ -1,7 +1,13 @@
 import axios from "axios";
 import {toast} from "react-toastify";
 
-const baseURL = `http://localhost:8080/api`
+const baseURL = process.env.NEXT_PUBLIC_ENV === 'development'
+            ?
+            process.env.NEXT_PUBLIC_API_DEV_URI
+            :
+            process.env.NEXT_PUBLIC_API_PROD_URI
+
+console.log(process.env.NEXT_PUBLIC_ENV)
 
 export const apiInstance = axios.create({
     baseURL: baseURL,
