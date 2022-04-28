@@ -14,8 +14,8 @@ interface FormProps {
 export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}) => {
     return (
         <Grid container className={styles.gridContainer}>
-            <Box>
-                <Grid item>
+                <Grid item xs={12} className={styles.gridItem}>
+                    <label className={styles.label}>Номер карты:</label>
                     <IMaskInput
                         mask={'0000-0000-0000-0000'}
                         unmask={true}
@@ -23,9 +23,11 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                             (value, mask) => handleChange(PaymentActionTypes.CARD, value)
                         }
                         placeholder='0000-0000-0000-0000'
+                        className={styles.input}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} className={styles.gridItem}>
+                    <label className={styles.label}>Срок годности:</label>
                     <IMaskInput
                         mask={'MM/YYYY'}
                         blocks={{
@@ -45,9 +47,11 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                             }
                         }
                         placeholder='12/2022'
+                        className={styles.input}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} className={styles.gridItem}>
+                    <label className={styles.label}>CVV:</label>
                     <IMaskInput
                         mask={'000'}
                         unmask={false}
@@ -55,9 +59,11 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                             (value, mask) => handleChange(PaymentActionTypes.CVV, value)
                         }
                         placeholder='000'
+                        className={styles.input}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} className={styles.gridItem}>
+                    <label className={styles.label}>Сумма:</label>
                     <IMaskInput
                         mask={Number}
                         radix="."
@@ -66,16 +72,16 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                             (value, mask) => handleChange(PaymentActionTypes.AMOUNT, value)
                         }
                         placeholder='100000'
+                        className={styles.input}
                     />
                 </Grid>
-                <Button
-                    variant='contained'
+                <button
+                    className={styles.btn}
                     disabled={disabled}
                     onClick={handleSubmit}
                 >
-                    Отправить
-                </Button>
-            </Box>
+                    Оплатить
+                </button>
         </Grid>
     );
 };
