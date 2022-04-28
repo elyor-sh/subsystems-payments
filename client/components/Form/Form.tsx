@@ -3,15 +3,67 @@ import {Box, Button, Grid} from "@mui/material";
 import styles from "../../styles/Form.module.scss";
 import {IMask, IMaskInput} from "react-imask";
 import {PaymentActionTypes} from "../../models/payment";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {ValidatePayment} from "../../helpers/validate";
+import {PaymentsService} from "../../services/payments.service";
+import {useActions} from "../../hooks/useAction";
+import {toast} from "react-toastify";
 
 
-interface FormProps {
-    handleChange: (name: string, value: any, valueWithMask?: string) => void
-    handleSubmit: () => Promise<void>
-    disabled: boolean
-}
+export const Form: React.FC = () => {
 
-export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}) => {
+    const {CardNumber, Cvv, ExpDate, Amount} = useTypedSelector(state => state.payment)
+
+    const validation = new ValidatePayment({CardNumber, Cvv, ExpDate, Amount})
+
+    const paymentsService = new PaymentsService()
+
+    const dispatch = useActions()
+
+    const handleChange = (name: string, value: any, valueWithMask?: string) => {
+
+        switch (name){
+            case PaymentActionTypes.CARD:
+                dispatch.cardActionCreator(value)
+                break
+            case PaymentActionTypes.EXP:
+                dispatch.expDataActionCreator(`${valueWithMask}`)
+                break
+            case PaymentActionTypes.CVV:
+                dispatch.cvvActionCreator(value)
+                break
+            case PaymentActionTypes.AMOUNT:
+                dispatch.amountActionCreator(value)
+                break
+            default:
+                break
+        }
+    }
+
+
+    const handleSubmit = async () => {
+
+        if(!validation.valid()){
+            toast.error(`Не валидные данные`, {
+                toastId: 'CustomId'
+            })
+
+            return
+        }
+
+        await paymentsService.post({
+            CardNumber: Number(CardNumber),
+            Cvv: Number(Cvv),
+            ExpDate,
+            Amount
+        }).then(res => {
+            console.log(res)
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+
+
     return (
         <Grid container className={styles.gridContainer}>
                 <Grid item xs={12} className={styles.gridItem}>
@@ -19,6 +71,7 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                     <IMaskInput
                         mask={'0000-0000-0000-0000'}
                         unmask={true}
+                        value={CardNumber || ''}
                         onAccept={
                             (value, mask) => handleChange(PaymentActionTypes.CARD, value)
                         }
@@ -40,6 +93,7 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                                 to: 12
                             }
                         }}
+                        value={ExpDate || ''}
                         unmask={true}
                         onAccept={
                             (value, mask) => {
@@ -55,6 +109,7 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                     <IMaskInput
                         mask={'000'}
                         unmask={false}
+                        value={Cvv || ''}
                         onAccept={
                             (value, mask) => handleChange(PaymentActionTypes.CVV, value)
                         }
@@ -68,6 +123,7 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                         mask={Number}
                         radix="."
                         unmask={true}
+                        value={Amount || ''}
                         onAccept={
                             (value, mask) => handleChange(PaymentActionTypes.AMOUNT, value)
                         }
@@ -76,8 +132,7 @@ export const Form: React.FC<FormProps> = ({handleChange, handleSubmit, disabled}
                     />
                 </Grid>
                 <button
-                    className={styles.btn}
-                    disabled={disabled}
+                    className={`${styles.btn} ${!validation.valid() ? styles.disabled : ''}`}
                     onClick={handleSubmit}
                 >
                     Оплатить

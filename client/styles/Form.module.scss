@@ -49,9 +49,11 @@
     background-position: 0;
   }
 
-  &:disabled, &:disabled:hover, &:disabled:focus {
+  &.disabled, &.disabled:hover, &.disabled:focus {
     border-color: #8f8f8f;
     background-position: 100%;
+    cursor: default;
+    pointer-events: none;
   }
 }
 
