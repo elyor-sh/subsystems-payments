@@ -2,6 +2,8 @@
 
 ##### Построен на стеке Nest, Next, MongoDB, MUI
 
+###### <a href="https://payments-two.vercel.app">DEMO</a>
+
 Клонируйте проект и сделайте следуюущие шаги
 
 1
